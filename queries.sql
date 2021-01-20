@@ -211,3 +211,86 @@ SELECT * FROM "Employees";
 | Jane Doe      | 4000     | Front Desk         | 762              | false        | 5             | 11 
 +---------------+----------+--------------------+------------------+--------------+---------------+----
 
+FOREIGN KEYS-THE SQL
+
+CREATE TABLE "Departments"(
+ "Id" SERIAL PRIMARY KEY,
+ "DepartmentName" TEXT,
+ "Building" TEXT);
+
+ INSERT INTO "Departments" ("DepartmentName","Building")
+  Values ('Development','Main');
+  INSERT INTO "Departments"("DepartmentName","Building")
+  VALUES('Marketing','North');
+
+CREATE TABLE "Employees"(
+ "FullName" TEXT,
+ "Salary" INT,
+ "JobPosition" TEXT,
+ "PhoneExtension" INT,
+ "IsPartTime" BOOL);
+
+ ALTER TABLE "Employees" ADD COLUMN "DepartmentId" INTEGER NULL REFERENCES "Departments" ("Id");
+
+  INSERT INTO "Employees" ("FullName",  "Salary", "JobPosition", "PhoneExtension","IsPartTime","DepartmentId")
+   VALUES ('Tim Smith', 40000, 'Programmer', 123, False,1);
+ 
+ INSERT INTO "Employees" ("FullName",  "Salary", "JobPosition", "PhoneExtension","IsPartTime","DepartmentId")
+    VALUES ('Barbra Ramsey', 80000, 'Manager', 234, False,1);
+ 
+ INSERT INTO "Employees" ("FullName",  "Salary", "JobPosition", "PhoneExtension","IsPartTime","DepartmentId")
+    VALUES ('Tom Jones', 32000, 'Admin', 456, True,2);
+
+
+SELECT * FROM "Employees";
++---------------+----------+---------------+------------------+--------------+----------------+
+| FullName      | Salary   | JobPosition   | PhoneExtension   | IsPartTime   | DepartmentId   |
+|---------------+----------+---------------+------------------+--------------+----------------|
+| Tim Smith     | 40000    | Programmer    | 123              | False        | 1              |
+| Barbra Ramsey | 80000    | Manager       | 234              | False        | 1              |
+| Tom Jones     | 32000    | Admin         | 456              | True         | 2              |
++---------------+----------+---------------+------------------+--------------+----------------+
+
+
+
+
+ CREATE TABLE "Products"(
+  "Id" SERIAL PRIMARY KEY,
+  "Price" NUMERIC,
+  "Name" TEXT,
+  "Description" TEXT,
+  "QuantityInStock" INT);
+
+INSERT INTO "Products" ("Price","Name","Description","QuantityInStock")
+  VALUES(12.45,'Widget','The Original Widget',100);
+  INSERT INTO "Products" ("Price","Name", "Description","QuantityInStock")
+  VALUES(99.99,'FlowBee','Perfect for haircuts',3);
+
+CREATE TABLE "Orders"(
+  "Id" SERIAL PRIMARY KEY,
+  "OrderNumber" TEXT,
+  "DatePlaced" TIMESTAMP,
+  "Email" TEXT);
+
+INSERT INTO "Orders" ("OrderNumber","DatePlaced","Email")
+  VALUES('X529','2020-01-01 16:55','person@example.com');
+
+
+CREATE TABLE "ProductOrders" (
+    "Id"       SERIAL PRIMARY KEY,
+    "ProductId"  INTEGER REFERENCES "Products" ("Id"),
+    "OrderID"  INTEGER REFERENCES "Orders" ("Id"),
+    "OrderQuantity" INT
+  );
+
+ INSERT INTO "ProductOrders" ("OrderID", "ProductId","OrderQuantity") VALUES (1,1,3);
+
+ INSERT INTO "ProductOrders" ("OrderID", "ProductId","OrderQuantity") VALUES (1,2,2);
+
+
+SELECT * FROM "Employees"
+    JOIN "Departments" ON "Employees"."DepartmentId" = "Departments"."Id"
+    WHERE "Departments"."Building"='North Side';
+
+    
+
