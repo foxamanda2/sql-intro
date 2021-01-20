@@ -211,7 +211,7 @@ SELECT * FROM "Employees";
 | Jane Doe      | 4000     | Front Desk         | 762              | false        | 5             | 11 
 +---------------+----------+--------------------+------------------+--------------+---------------+----
 
-FOREIGN KEYS-THE SQL
+#############FOREIGN KEYS-THE SQL###################
 
 CREATE TABLE "Departments"(
  "Id" SERIAL PRIMARY KEY,
@@ -292,5 +292,47 @@ SELECT * FROM "Employees"
     JOIN "Departments" ON "Employees"."DepartmentId" = "Departments"."Id"
     WHERE "Departments"."Building"='North Side';
 
-    
+    +------------+----------+---------------+------------------+--------------+----------------+------+------------------+------------+
+| FullName   | Salary   | JobPosition   | PhoneExtension   | IsPartTime   | DepartmentId   | Id   | DepartmentName   | Building   |
+|------------+----------+---------------+------------------+--------------+----------------+------+------------------+------------|
++------------+----------+---------------+------------------+--------------+----------------+------+------------------+------------+
 
+
+SELECT * FROM "Employees"
+     JOIN "Departments" ON "Employees"."DepartmentId" = "Departments"."Id"
+     WHERE "Departments"."Building"='East-Side';
++------------+----------+---------------+------------------+--------------+----------------+------+------------------+------------+
+| FullName   | Salary   | JobPosition   | PhoneExtension   | IsPartTime   | DepartmentId   | Id   | DepartmentName   | Building   |
+|------------+----------+---------------+------------------+--------------+----------------+------+------------------+------------|
++------------+----------+---------------+------------------+--------------+----------------+------+------------------+------------+
+
+SELECT * FROM "Employees"
+      JOIN "Departments" ON "Employees"."DepartmentId" = "Departments"."Id"
+      WHERE "Departments"."Building"='Main';
++---------------+----------+---------------+------------------+--------------+----------------+------+------------------+------------+
+| FullName      | Salary   | JobPosition   | PhoneExtension   | IsPartTime   | DepartmentId   | Id   | DepartmentName   | Building   |
+|---------------+----------+---------------+------------------+--------------+----------------+------+------------------+------------|
+| Tim Smith     | 40000    | Programmer    | 123              | False        | 1              | 1    | Development      | Main       |
+| Barbra Ramsey | 80000    | Manager       | 234              | False        | 1              | 1    | Development      | Main       |
++---------------+----------+---------------+------------------+--------------+----------------+------+------------------+------------+
+
+ SELECT*FROM "Orders"
+  JOIN "ProductOrders" ON "ProductOrders"."OrderID" = "Orders"."Id"
+  WHERE "ProductOrders"."ProductId"=2;
++------+---------------+---------------------+--------------------+------+-------------+-----------+-----------------+
+| Id   | OrderNumber   | DatePlaced          | Email              | Id   | ProductId   | OrderID   | OrderQuantity   |
+|------+---------------+---------------------+--------------------+------+-------------+-----------+-----------------|
+| 1    | X529          | 2020-01-01 16:55:00 | person@example.com | 3    | 2           | 1         | 2               |
++------+---------------+---------------------+--------------------+------+-------------+-----------+-----------------+
+
+
+SELECT "ProductOrders"."OrderQuantity"
+  FROM "ProductOrders"
+  JOIN "Orders" ON "ProductOrders"."OrderID"="Orders"."Id"
+  JOIN "Products"ON "ProductOrders"."ProductId"="Products"."Id"
+  WHERE "Products"."Name"='FlowBee' AND "Orders"."OrderNumber"='X529';
++-----------------+
+| OrderQuantity   |
+|-----------------|
+| 2               |
++-----------------+
